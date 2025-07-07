@@ -23,15 +23,6 @@ app.get("/items/:Item", (req, res)=> {
   }
 
 })
-app.post("/items", (req, res) => {
-  if(!req.body.Item || typeof req.body.Item !== "string" || !req.body.Image || typeof req.body.Image !== "string"){
-    res.sendStatus(422);
-    return;
-  }
-  const highestId = items.sort((a, b) => a.id - b.id)[items.length - 1].id
-  items.push({id: highestId +1, Item: req.body.Item, Image: req.body.Image});
-  res.sendStatus(201);
-})
 
 app.listen(port, () => {
   console.log(`listening to port ${port}`);
