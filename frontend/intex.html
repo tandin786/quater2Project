@@ -1,11 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foods</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script defer src="./function.js"></script>
+  </head>
+  <body
+    class="bg-cover bg-no-repeat bg-fixed bg-[url(/Users/admin/quater2Project/frontend/vegetable4.png)]"
+  >
+    <main class="mx-15 my-4">
+      <h2 class="text-red-500 text-[40px]">
+        <span class="text-blue-500">F</span>
+        <span class="text-green-500">o</span>
+        <span class="text-red-500">o</span>
+        <span class="text-yellow-500">d</span>
+        <span class="text-purple-500">s</span>
+      </h2>
+      <input
+        id="display"
+        class="bg-white/20 h-10 w-90 backdrop-blur-md border-2 border-white p-2 rounded-2xl text-white"
+        placeholder="Enter Meal"
+        type="text"
+      />
+      <button
+        onclick="search()"
+        class="bg-white/20 backdrop-blur-md h-10 w-20 rounded-2xl text-white hover:text-red-500 active:scale-97 border-2 border-white hover:border-red-500"
+      >
+        Search
+      </button>
+      <section id="container" class="grid grid-cols-4 gap-8 mt-9"></section>
+    </main>
+  </body>
 </html>
