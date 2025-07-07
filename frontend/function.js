@@ -18,6 +18,9 @@ function addFoods(foodsname, foodimageURL) {
   name.setAttribute("class", mealsnameClass);
   result.appendChild(name);
 }
+
+search();
+
 function search() {
   const disvalue = display.value;
   axios
