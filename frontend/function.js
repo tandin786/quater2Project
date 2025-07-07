@@ -21,8 +21,6 @@ function addFoods(foodsname, foodimageURL) {
   result.appendChild(name);
 }
 
-search();
-
 function search() {
   const disvalue = display.value;
   axios
