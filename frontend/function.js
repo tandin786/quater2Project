@@ -4,7 +4,7 @@ const mealsidClass =
   "text-black text-xl font-bold uppercase text-center bg-white p-2 rounded-b-lg shadow-md w-70 mt-2";
 const mealsimageClass =
   "bg-white rounded-t-lg p-4 h-70 w-70 bg-cover bg-center";
-const recipeClass = "text-black bg-white/80 p-4 w-70";
+const recipeClass = "text-black bg-white/80 p-4 w-auto";
 const display = document.getElementById("display");
 const container = document.getElementById("container");
 const container2 = document.getElementById("container2");
