@@ -23,7 +23,21 @@ app.get("/items/:Item", (req, res)=> {
   }
 
 })
+app.delete("/items/:Item", (req, res) => {
+  const Item = req.params.Item;
 
+
+  const index = items.findIndex((cat) => {
+    return cat.Item === Item;
+  });
+
+  if (index !== -1) {
+    items.splice(index, 1);
+    res.send("Deleted");
+  } else {
+    res.sendStatus(404);
+  }
+});
 app.listen(port, () => {
   console.log(`listening to port ${port}`);
 })
