@@ -125,11 +125,11 @@ if (document.getElementById("recipe-container")) {
 
 if (container2) {
   axios
-    .get(`https://www.themealdb.com/api/json/v1/1/categories.php`)
+    .get(`http://localhost:5008/items`)
     .then(function (response) {
       console.log(response, "categories response");
-      response.data.categories.forEach((cat) => {
-        addCat(cat.strCategory, cat.strCategoryThumb);
+      response.data.forEach((cat) => {
+        addCat(cat.Item, cat.Image);
       });
     })
     .catch(function (error) {
