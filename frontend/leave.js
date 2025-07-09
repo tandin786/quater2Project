@@ -63,7 +63,16 @@ app.put("/items/:Item", (req, res) => {
     res.sendStatus(404);
   }
 });
+
+
+app.get("/item", (req, res) => {
+  res.send(item);
+});
+
+app.get("/item/:Item", (req, res) => {
+=======
 app.delete("/items/:Item", (req, res) => {
+
   const Item = req.params.Item;
   const index = items.findIndex((item) => {
     return item.Item === Item;
