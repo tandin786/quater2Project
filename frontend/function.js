@@ -107,6 +107,7 @@ function addCat(catName, catPosterUrl) {
   cat.appendChild(deleteBox);
 }
 
+
 function displayMealDetails() {
   const meal = JSON.parse(localStorage.getItem("mealData"));
   if (recipeContainer && meal) {
