@@ -1,25 +1,3 @@
-const mealsnameClass =
-  "text-black text-2xl font-bold uppercase text-center bg-white p-4 rounded-b-lg shadow-md w-70";
-const mealsidClass =
-  "text-black text-xl font-bold uppercase text-center bg-white p-2 rounded-b-lg shadow-md w-70 mt-2";
-const mealsimageClass =
-  "bg-white rounded-t-lg p-4 h-70 w-70 bg-cover bg-center";
-
-const ingredientClass =
-  "text-black text-2xl font-bold uppercase text-center bg-white p-4 rounded-b-lg shadow-md w-70";
-const ingredientImageClass =
-  "bg-white rounded-full p-4 h-70 w-70 bg-cover bg-center";
-
-const recipeClass = "text-black bg-white/80 p-4 w-auto";
-
-const display = document.getElementById("display");
-const container = document.getElementById("container");
-const container2 = document.getElementById("container2");
-const recipeContainer = document.getElementById("recipe-container");
-const ingredientContainer = document.getElementById("popular-ingredients");
-const categoriesTitle = document.getElementById("categories-title");
-const createNewButton = document.getElementById("create-new");
-
 function addRecipe(descriptionOfMeal) {
   const recipe = document.createElement("div");
   recipe.setAttribute("class", recipeClass);
@@ -58,8 +36,10 @@ function addFoods(foodsname, foodimageURL, food_id) {
 function search() {
   const disvalue = display.value.trim();
   if (!disvalue) {
-    console.error("Search input is empty");
-    restoreCategories();
+
+    errorMessage.innerText = "search Bar empty";
+    errorContainer.appendChild(errorMessage);
+
     return;
   }
   axios
@@ -67,34 +47,25 @@ function search() {
     .then(function (response) {
       console.log(response, "search response");
       container.innerHTML = "";
-      if (container2) {
-        container2.innerHTML = "";
-      }
-      if (categoriesTitle) {
-        categoriesTitle.style.display = "none";
-      }
-      if (createNewButton) {
-        createNewButton.style.display = "none";
-      }
       if (response.data.meals) {
         response.data.meals.forEach((meal) => {
           addFoods(meal.strMeal, meal.strMealThumb, meal.idMeal);
         });
       } else {
-        console.log("No meals found");
-        container.innerHTML = "<p>No meals found</p>";
-        restoreCategories();
+
+        errorMessage.innerText = "No meals by that name";
+        errorContainer.appendChild(errorMessage);
+
       }
     })
     .catch(function (error) {
       console.error("Error fetching search data:", error);
-      restoreCategories();
     });
 }
 
 function getById(event) {
   const mealId = event.currentTarget.dataset.mealId;
-  console.log(mealId, "meal visitor id");
+  console.log(mealId, "meal id");
 
   axios
     .get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`)
@@ -116,6 +87,10 @@ function getById(event) {
 
 function addCat(catName, catPosterUrl) {
   const cat = document.createElement("div");
+  const deleteBox = document.createElement("Button");
+  deleteBox.setAttribute("onclick", `deleteCategory('${catName}')`);
+  deleteBox.className = "flex justify-end h-8 w-8 bg-red-500 text-white rounded-full ";
+  deleteBox.innerText = "X";
   cat.className =
     "flex flex-col items-center bg-white rounded-lg shadow-lg w-70";
   container2.appendChild(cat);
@@ -129,18 +104,13 @@ function addCat(catName, catPosterUrl) {
   mealName.innerText = catName;
   mealName.setAttribute("class", mealsnameClass);
   cat.appendChild(mealName);
+  cat.appendChild(deleteBox);
 }
 
 function displayMealDetails() {
   const meal = JSON.parse(localStorage.getItem("mealData"));
   if (recipeContainer && meal) {
     recipeContainer.innerHTML = "";
-
-    const image = document.createElement("img");
-    image.setAttribute("src", meal.strMealThumb);
-    image.setAttribute("class", mealsimageClass);
-    recipeContainer.appendChild(image);
-
     addRecipe(meal.strInstructions);
   } else if (recipeContainer) {
     recipeContainer.innerHTML = "<p>No meal data available</p>";
@@ -150,6 +120,7 @@ function displayMealDetails() {
 if (document.getElementById("recipe-container")) {
   displayMealDetails();
 }
+
 
 if (container2) {
   axios
@@ -163,54 +134,9 @@ if (container2) {
     .catch(function (error) {
       console.error("Error fetching categories:", error);
     });
-}
 
-function createCategory(event) {
-  event.preventDefault();
-
-  const categoryName = document.getElementById("categoryName").value.trim();
-  const categoryImage = document.getElementById("categoryimg").value.trim();
-
-  if (!categoryName || !categoryImage) {
-    console.error("Category name or image URL is empty");
-    alert("Please fill in both the item name and image URL.");
-    return;
-  }
-
-  const categoryData = {
-    Item: categoryName,
-    Image: categoryImage,
-  };
-
-  axios
-    .post(`http://localhost:5008/items`, categoryData)
-    .then(function (response) {
-      console.log(response, "create category response");
-      document.getElementById("create-category-form").reset();
-      window.location.reload();
-    })
-    .catch(function (error) {
-      console.error("Error creating category:", error);
-      alert("Failed to add category. Please try again.");
-    });
-}
-
-function openModal() {
-  const modal = document.getElementById("category-modal");
-  if (modal) {
-    modal.classList.remove("hidden");
-  }
-}
-
-function closeModal() {
-  const modal = document.getElementById("category-modal");
-  if (modal) {
-    modal.classList.add("hidden");
-    document.getElementById("create-category-form").reset();
-  }
-}
-
-function restoreCategories() {
+showCategory();
+function showCategory() {
   if (container2) {
     container2.innerHTML = "";
     axios
@@ -220,22 +146,16 @@ function restoreCategories() {
         response.data.forEach((cat) => {
           addCat(cat.Item, cat.Image);
         });
-        if (categoriesTitle) {
-          categoriesTitle.style.display = "block";
-        }
-        if (createNewButton) {
-          createNewButton.style.display = "block";
-        }
       })
       .catch(function (error) {
         console.error("Error fetching categories:", error);
       });
   }
 }
+function deleteCategory(Item) {
+  axios.delete(`http://localhost:5008/items/${Item}`)
+  .then((response) => {
+    showCategory();
+  });
 
-display.addEventListener("input", function () {
-  if (!display.value.trim()) {
-    container.innerHTML = "";
-    restoreCategories();
-  }
-});
+}
