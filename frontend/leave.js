@@ -65,8 +65,6 @@ app.put("/items/:Item", (req, res) => {
   }
 });
 
-// ingredients
-
 app.get("/item", (req, res) => {
   res.send(item);
 });

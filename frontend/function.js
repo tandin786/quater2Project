@@ -57,18 +57,9 @@ function addFoods(foodsname, foodimageURL, food_id) {
 
 function search() {
   const disvalue = display.value.trim();
-  const errorContainer = document.getElementById("errorContainers");
-  errorContainer.innerHTML = "";
-  const errorMessage = document.createElement("p");
-  errorMessage.className = "text-red-400";
   if (!disvalue) {
-
     console.error("Search input is empty");
     restoreCategories();
-
-    errorMessage.innerText = "search Bar empty";
-    errorContainer.appendChild(errorMessage);
-
     return;
   }
   axios
@@ -90,17 +81,9 @@ function search() {
           addFoods(meal.strMeal, meal.strMealThumb, meal.idMeal);
         });
       } else {
-
         console.log("No meals found");
         container.innerHTML = "<p>No meals found</p>";
-
         restoreCategories();
-     
-
-        errorMessage.innerText = "No meals by that name";
-        errorContainer.appendChild(errorMessage);
-
-
       }
     })
     .catch(function (error) {
@@ -167,26 +150,19 @@ function displayMealDetails() {
 if (document.getElementById("recipe-container")) {
   displayMealDetails();
 }
-showCategory();
-function showCategory() {
-  if (container2) {
-    axios
-      .get(`http://localhost:5008/items`)
-      .then(function (response) {
-        console.log(response, "categories response");
-        response.data.forEach((cat) => {
-          addCat(cat.Item, cat.Image);
-        });
-      })
-      .catch(function (error) {
-        console.error("Error fetching categories:", error);
+
+if (container2) {
+  axios
+    .get(`http://localhost:5008/items`)
+    .then(function (response) {
+      console.log(response, "categories response");
+      response.data.forEach((cat) => {
+        addCat(cat.Item, cat.Image);
       });
-  }
-}
-function deleteCategory() {
-  axios.delete(`https://localhost:/5008/${Item}`).then((response) => {
-    showCategory();
-  });
+    })
+    .catch(function (error) {
+      console.error("Error fetching categories:", error);
+    });
 }
 
 function createCategory(event) {
