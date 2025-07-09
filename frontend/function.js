@@ -7,9 +7,8 @@ const mealsimageClass =
 const mealsimageClass2 =
   "bg-white rounded-t-lg p-4 h-100 w-100 bg-cover bg-center mx-auto mt-20";
 const ingredientClass =
-  "text-black text-2xl font-bold uppercase text-center bg-white p-4 rounded-b-lg shadow-md w-70";
-const ingredientImageClass =
-  "bg-white rounded-full p-4 h-70 w-70 bg-cover bg-center";
+  "text-black text-2xl font-bold uppercase text-center bg-white p-4 shadow-md w-70";
+const ingredientImageClass = "";
 
 const recipeClass = "text-black bg-white/80 p-4 w-auto mr-20";
 
@@ -58,6 +57,9 @@ function addFoods(foodsname, foodimageURL, food_id) {
 
 function search() {
   const disvalue = display.value.trim();
+  const container = document.getElementById("container");
+  container.setAttribute("class", "grid grid-cols-4 gap-8 mt-9");
+  container.innerHTML = "";
   if (!disvalue) {
     console.error("Search input is empty");
     restoreCategories();
@@ -114,7 +116,28 @@ function getById(event) {
       console.error("Error fetching meal data:", error);
     });
 }
+axios.get(`http://localhost:5008/item`).then(function (response) {
+  console.log(response, "ing");
+  response.data.forEach((ing) => {
+    addIng(ing.Items, ing.Image);
+  });
+});
+function addIng(ingName, ingPosterUrl) {
+  const ing = document.createElement("div");
+  ing.className =
+    "flex flex-col items-center bg-white shadow-lg w-70 rounded-full my-15";
+  ingredientContainer.appendChild(ing);
 
+  const popularImage = document.createElement("img");
+  popularImage.setAttribute("src", ingPosterUrl);
+  popularImage.setAttribute("class", ingredientImageClass);
+  ing.appendChild(popularImage);
+
+  const popularName = document.createElement("p");
+  popularName.innerText = ingName;
+  popularName.setAttribute("class", mealsnameClass);
+  ing.appendChild(popularName);
+}
 function addCat(catName, catPosterUrl) {
   const cat = document.createElement("div");
   cat.className =
