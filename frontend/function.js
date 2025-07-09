@@ -131,6 +131,7 @@ function addCat(catName, catPosterUrl) {
   cat.appendChild(mealName);
 }
 
+
 function displayMealDetails() {
   const meal = JSON.parse(localStorage.getItem("mealData"));
   if (recipeContainer && meal) {
