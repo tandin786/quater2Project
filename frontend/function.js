@@ -66,15 +66,15 @@ function search() {
     .get(`https://www.themealdb.com/api/json/v1/1/search.php?s=${disvalue}`)
     .then(function (response) {
       console.log(response, "search response");
-      container.innerHTML = ""; // Clear search results container
+      container.innerHTML = "";
       if (container2) {
-        container2.innerHTML = ""; // Clear categories container
+        container2.innerHTML = "";
       }
       if (categoriesTitle) {
-        categoriesTitle.style.display = "none"; // Hide Categories title
+        categoriesTitle.style.display = "none";
       }
       if (createNewButton) {
-        createNewButton.style.display = "none"; // Hide Create Category button
+        createNewButton.style.display = "none";
       }
       if (response.data.meals) {
         response.data.meals.forEach((meal) => {
@@ -83,12 +83,12 @@ function search() {
       } else {
         console.log("No meals found");
         container.innerHTML = "<p>No meals found</p>";
-        restoreCategories(); // Restore categories if no results
+        restoreCategories();
       }
     })
     .catch(function (error) {
       console.error("Error fetching search data:", error);
-      restoreCategories(); // Restore categories on error
+      restoreCategories();
     });
 }
 
@@ -187,7 +187,7 @@ function createCategory(event) {
     .then(function (response) {
       console.log(response, "create category response");
       document.getElementById("create-category-form").reset();
-      window.location.reload(); // Refresh the page to load updated data
+      window.location.reload();
     })
     .catch(function (error) {
       console.error("Error creating category:", error);
@@ -212,7 +212,7 @@ function closeModal() {
 
 function restoreCategories() {
   if (container2) {
-    container2.innerHTML = ""; // Clear existing content
+    container2.innerHTML = "";
     axios
       .get(`http://localhost:5008/items`)
       .then(function (response) {
@@ -221,10 +221,10 @@ function restoreCategories() {
           addCat(cat.Item, cat.Image);
         });
         if (categoriesTitle) {
-          categoriesTitle.style.display = "block"; // Show Categories title
+          categoriesTitle.style.display = "block";
         }
         if (createNewButton) {
-          createNewButton.style.display = "block"; // Show Create Category button
+          createNewButton.style.display = "block";
         }
       })
       .catch(function (error) {
@@ -233,10 +233,9 @@ function restoreCategories() {
   }
 }
 
-// Add event listener to restore categories when search input is cleared
 display.addEventListener("input", function () {
   if (!display.value.trim()) {
-    container.innerHTML = ""; // Clear search results
-    restoreCategories(); // Restore categories
+    container.innerHTML = "";
+    restoreCategories();
   }
 });
