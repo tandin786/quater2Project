@@ -3,13 +3,14 @@ const mealsnameClass =
 const mealsidClass =
   "text-black text-xl font-bold uppercase text-center bg-white p-2 rounded-b-lg shadow-md w-70 mt-2";
 const mealsimageClass =
-  "bg-white rounded-t-lg p-4 h-70 w-70 bg-cover bg-center";
-
+  "bg-white rounded-t-lg p-4 h-70 w-70 bg-cover bg-center mx-auto";
+const mealsimageClass2 =
+  "bg-white rounded-t-lg p-4 h-100 w-100 bg-cover bg-center mx-auto mt-20";
 const ingredientClass =
   "text-black text-2xl font-bold uppercase text-center bg-white p-4 shadow-md w-70";
 const ingredientImageClass = "";
 
-const recipeClass = "text-black bg-white/80 p-4 w-auto";
+const recipeClass = "text-black bg-white/80 p-4 w-auto mr-20";
 
 const display = document.getElementById("display");
 const container = document.getElementById("container");
@@ -154,6 +155,7 @@ function addCat(catName, catPosterUrl) {
   cat.appendChild(mealName);
 }
 
+
 function displayMealDetails() {
   const meal = JSON.parse(localStorage.getItem("mealData"));
   if (recipeContainer && meal) {
@@ -161,7 +163,7 @@ function displayMealDetails() {
 
     const image = document.createElement("img");
     image.setAttribute("src", meal.strMealThumb);
-    image.setAttribute("class", mealsimageClass);
+    image.setAttribute("class", mealsimageClass2);
     recipeContainer.appendChild(image);
 
     addRecipe(meal.strInstructions);
