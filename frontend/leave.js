@@ -1,6 +1,5 @@
 const express = require("express");
 const items = require("./category.js");
-const item = require("./ingredients.js");
 const cors = require("cors");
 const app = express();
 app.use(express.json());
@@ -64,25 +63,20 @@ app.put("/items/:Item", (req, res) => {
     res.sendStatus(404);
   }
 });
-
-// ingredients
-
-app.get("/item", (req, res) => {
-  res.send(item);
-});
-
-app.get("/item/:Item", (req, res) => {
+app.delete("/items/:Item", (req, res) => {
   const Item = req.params.Item;
-  const foundItem = item.findIndex((item) => {
+  const index = items.findIndex((item) => {
     return item.Item === Item;
   });
-  if (foundItem !== -1) {
-    res.send(item[foundItem]);
+
+  if (index !== -1) {
+    items.splice(index, 1);
+    res.send("Deleted");
   } else {
     res.sendStatus(404);
   }
 });
-
 app.listen(port, () => {
   console.log(`listening to port ${port}`);
 });
+
