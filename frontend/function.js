@@ -39,7 +39,7 @@ function addFoods(foodsname, foodimageURL, food_id) {
   result.setAttribute("data-meal-id", food_id);
   result.addEventListener("click", getById);
   result.className =
-    "flex flex-col items-center bg-white rounded-xl shadow-lg w-full";
+    "flex flex-col items-center bg-white rounded-xl shadow-lg w-full cursor-pointer";
   container.appendChild(result);
 
   const image = document.createElement("img");
@@ -61,8 +61,8 @@ function addFoods(foodsname, foodimageURL, food_id) {
 
 function search() {
   const disvalue = display.value.trim();
-  const errorContainers = document.getElementById("errorContainer")
-  errorContainers.setAttribute("class", "text-red-400")
+  const errorContainers = document.getElementById("errorContainer");
+  errorContainers.setAttribute("class", "text-red-400");
   errorContainers.innerHTML = "";
   container.setAttribute(
     "class",
@@ -73,7 +73,7 @@ function search() {
     errorContainers.innerText = "search field is empty";
     return;
   }
-  
+
   axios
     .get(`https://www.themealdb.com/api/json/v1/1/search.php?s=${disvalue}`)
     .then(function (response) {
@@ -100,7 +100,7 @@ function search() {
         });
       } else {
         console.log("No meals found");
-          errorContainers.innerText = "No meals found";
+        errorContainers.innerText = "No meals found";
         restoreCategories();
       }
     })
@@ -299,9 +299,8 @@ display.addEventListener("input", function () {
 
 
 
-function logInOrSignInfunction(){
 
-}
+
 
 
  function RegisterUser(event) {
@@ -342,4 +341,4 @@ function logInOrSignInfunction(){
       console.error("Error creating User:", error);
       alert("Failed to add User. Please try again.");
     });
-}
+ }
