@@ -20,6 +20,7 @@ const ingredientContainer = document.getElementById("popular-ingredients");
 const categoriesTitle = document.getElementById("categories-title");
 const createNewButton = document.getElementById("create-new");
 const ingredientsTitle = document.getElementById("ingredients-title");
+const logSignForm = document.getElementById("logInOrSignIn-Modal")
 
 function addRecipe(descriptionOfMeal) {
   const recipe = document.createElement("div");
@@ -335,4 +336,20 @@ function RegisterUser(event) {
       console.error("Error creating User:", error);
       alert("Failed to add User. Please try again.");
     });
+}
+
+
+function openLoginForm() {
+  
+  if (logSignForm) {
+    logSignForm.classList.remove("hidden");
+  }
+}
+
+
+function closeLoginForm() {
+  if (logSignForm) {
+    logSignForm.classList.add("hidden");
+    document.getElementById("UserRegistration").reset();
+  }
 }
