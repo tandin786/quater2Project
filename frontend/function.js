@@ -62,14 +62,16 @@ function addFoods(foodsname, foodimageURL, food_id) {
 
 function search() {
   const disvalue = display.value.trim();
+  const errorContainers = document.getElementById("errorContainer")
+  errorContainers.setAttribute("class", "text-red-400")
+  errorContainers.innerHTML = "";
   container.setAttribute(
     "class",
     "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-12"
   );
   container.innerHTML = "";
   if (!disvalue) {
-    console.error("Search input is empty");
-    restoreCategories();
+    errorContainers.innerText = "search field is empty";
     return;
   }
   axios
@@ -98,8 +100,7 @@ function search() {
         });
       } else {
         console.log("No meals found");
-        container.innerHTML =
-          "<p class='text-white text-center text-lg'>No meals found</p>";
+          errorContainers.innerText = "No meals found";
         restoreCategories();
       }
     })
