@@ -39,7 +39,7 @@ function addFoods(foodsname, foodimageURL, food_id) {
   result.setAttribute("data-meal-id", food_id);
   result.addEventListener("click", getById);
   result.className =
-    "flex flex-col items-center bg-white rounded-xl shadow-lg w-full";
+    "flex flex-col items-center bg-white rounded-xl shadow-lg w-full cursor-pointer";
   container.appendChild(result);
 
   const image = document.createElement("img");
@@ -61,8 +61,8 @@ function addFoods(foodsname, foodimageURL, food_id) {
 
 function search() {
   const disvalue = display.value.trim();
-  const errorContainers = document.getElementById("errorContainer")
-  errorContainers.setAttribute("class", "text-red-400")
+  const errorContainers = document.getElementById("errorContainer");
+  errorContainers.setAttribute("class", "text-red-400");
   errorContainers.innerHTML = "";
   container.setAttribute(
     "class",
@@ -73,7 +73,7 @@ function search() {
     errorContainers.innerText = "search field is empty";
     return;
   }
-  
+
   axios
     .get(`https://www.themealdb.com/api/json/v1/1/search.php?s=${disvalue}`)
     .then(function (response) {
@@ -100,7 +100,7 @@ function search() {
         });
       } else {
         console.log("No meals found");
-          errorContainers.innerText = "No meals found";
+        errorContainers.innerText = "No meals found";
         restoreCategories();
       }
     })
@@ -297,44 +297,44 @@ display.addEventListener("input", function () {
   }
 });
 
-
-
-function logInOrSignInfunction(){
-  
-  const barrel = document.getElementById("barrels")
-  barrel.innerHTML ="";
+function logInOrSignInfunction() {
+  const barrel = document.getElementById("barrels");
+  barrel.innerHTML = "";
   const Bucket = document.createElement("form");
   const userInpput = document.createElement("input");
   const passwordInput = document.createElement("input");
   userInpput.setAttribute("placeholder", "enter username");
   passwordInput.setAttribute("placeholder", "enter password");
   const submitButton = document.createElement("button");
-  submitButton.innerText = "Login"
-  const registerButton = document.createElement("button")
-  registerButton.setAttribute("class", "bg-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-red-600 transition-all duration-300 transform hover:scale-10 ");
+  submitButton.innerText = "Login";
+  const registerButton = document.createElement("button");
+  registerButton.setAttribute(
+    "class",
+    "bg-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-red-600 transition-all duration-300 transform hover:scale-10 "
+  );
   const options = document.createElement("p");
-  options.innerText = "create account"
+  options.innerText = "create account";
   options.setAttribute("onclick", "refreshForm()");
 
   Bucket.appendChild(userInpput);
   Bucket.appendChild(passwordInput);
   Bucket.appendChild(submitButton);
-  Bucket.appendChild(registerButton)
-  Bucket.appendChild(options)
-  barrel.appendChild(Bucket)
+  Bucket.appendChild(registerButton);
+  Bucket.appendChild(options);
+  barrel.appendChild(Bucket);
 
-
-  submitButton.setAttribute("class", "bg-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-red-600 transition-all duration-300 transform hover:scale-10 ");
-  function refreshForm(){
-    const option = options.InnerText
-    if(option == "create account"){
-      logInOrSignInfunction()
-      options.InnerText = "already have an account"
-    }
-    else if(option == "already have an account"){
-      logInOrSignInfunction()
-      options.InnerText = "create account"
+  submitButton.setAttribute(
+    "class",
+    "bg-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-red-600 transition-all duration-300 transform hover:scale-10 "
+  );
+  function refreshForm() {
+    const option = options.InnerText;
+    if (option == "create account") {
+      logInOrSignInfunction();
+      options.InnerText = "already have an account";
+    } else if (option == "already have an account") {
+      logInOrSignInfunction();
+      options.InnerText = "create account";
     }
   }
-
 }
