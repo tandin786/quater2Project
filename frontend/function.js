@@ -1,16 +1,17 @@
 const mealsnameClass =
-  "text-black text-2xl font-bold uppercase text-center bg-white p-4 rounded-b-lg shadow-md w-70";
+  "text-gray-900 text-2xl font-semibold uppercase text-center bg-white p-4 rounded-b-lg shadow-lg w-full";
 const mealsidClass =
-  "text-black text-xl font-bold uppercase text-center bg-white p-2 rounded-b-lg shadow-md w-70 mt-2";
+  "text-gray-700 text-lg font-medium text-center bg-white p-2 rounded-b-lg shadow-lg w-full mt-2";
 const mealsimageClass =
-  "bg-white rounded-t-lg p-4 h-70 w-70 bg-cover bg-center mx-auto";
+  "bg-white rounded-t-lg p-4 h-64 w-full object-cover bg-center mx-auto";
 const mealsimageClass2 =
-  "bg-white rounded-t-lg p-4 h-100 w-100 bg-cover bg-center mx-auto mt-20";
+  "rounded-xl h-96 w-full max-w-lg bg-cover bg-center mx-auto object-cover shadow-xl";
 const ingredientClass =
-  "text-black text-2xl font-bold uppercase text-center bg-white p-4 shadow-md w-70";
-const ingredientImageClass = "";
-
-const recipeClass = "text-black bg-white/80 p-4 w-auto mr-20";
+  "text-gray-900 text-lg font-semibold uppercase text-center bg-white p-3 shadow-lg w-full";
+const ingredientImageClass =
+  "rounded-full h-48 w-48 bg-cover bg-center mx-auto object-cover shadow-md";
+const recipeClass =
+  "text-white bg-gray-800/95 p-8 rounded-xl shadow-xl w-full max-w-3xl mx-auto leading-relaxed backdrop-blur-sm";
 
 const display = document.getElementById("display");
 const container = document.getElementById("container");
@@ -19,12 +20,15 @@ const recipeContainer = document.getElementById("recipe-container");
 const ingredientContainer = document.getElementById("popular-ingredients");
 const categoriesTitle = document.getElementById("categories-title");
 const createNewButton = document.getElementById("create-new");
+const ingredientsTitle = document.getElementById("ingredients-title");
 
 function addRecipe(descriptionOfMeal) {
   const recipe = document.createElement("div");
   recipe.setAttribute("class", recipeClass);
   const recipeInstruction = document.createElement("p");
   recipeInstruction.innerText = descriptionOfMeal;
+  recipeInstruction.className =
+    "text-gray-200 text-base leading-relaxed tracking-wide";
   recipe.appendChild(recipeInstruction);
   if (recipeContainer) {
     recipeContainer.appendChild(recipe);
@@ -36,12 +40,13 @@ function addFoods(foodsname, foodimageURL, food_id) {
   result.setAttribute("data-meal-id", food_id);
   result.addEventListener("click", getById);
   result.className =
-    "flex flex-col items-center bg-white rounded-lg shadow-lg w-70";
+    "flex flex-col items-center bg-white rounded-xl shadow-lg w-full";
   container.appendChild(result);
 
   const image = document.createElement("img");
   image.setAttribute("src", foodimageURL);
   image.setAttribute("class", mealsimageClass);
+  image.setAttribute("alt", foodsname);
   result.appendChild(image);
 
   const name = document.createElement("p");
@@ -57,8 +62,10 @@ function addFoods(foodsname, foodimageURL, food_id) {
 
 function search() {
   const disvalue = display.value.trim();
-  const container = document.getElementById("container");
-  container.setAttribute("class", "grid grid-cols-4 gap-8 mt-9");
+  container.setAttribute(
+    "class",
+    "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-12"
+  );
   container.innerHTML = "";
   if (!disvalue) {
     console.error("Search input is empty");
@@ -79,13 +86,20 @@ function search() {
       if (createNewButton) {
         createNewButton.style.display = "none";
       }
+      if (ingredientContainer) {
+        ingredientContainer.style.display = "none";
+      }
+      if (ingredientsTitle) {
+        ingredientsTitle.style.display = "none";
+      }
       if (response.data.meals) {
         response.data.meals.forEach((meal) => {
           addFoods(meal.strMeal, meal.strMealThumb, meal.idMeal);
         });
       } else {
         console.log("No meals found");
-        container.innerHTML = "<p>No meals found</p>";
+        container.innerHTML =
+          "<p class='text-white text-center text-lg'>No meals found</p>";
         restoreCategories();
       }
     })
@@ -108,45 +122,49 @@ function getById(event) {
           "mealData",
           JSON.stringify(response.data.meals[0])
         );
-
-        window.open(`./recipe.html?mealId=${mealId}`, "_blank");
+        window.location.href = `./recipe.html?mealId=${mealId}`;
       }
     })
     .catch(function (error) {
       console.error("Error fetching meal data:", error);
     });
 }
+
 axios.get(`http://localhost:5008/item`).then(function (response) {
   console.log(response, "ing");
   response.data.forEach((ing) => {
     addIng(ing.Items, ing.Image);
   });
 });
+
 function addIng(ingName, ingPosterUrl) {
   const ing = document.createElement("div");
   ing.className =
-    "flex flex-col items-center bg-white shadow-lg w-70 rounded-full my-15";
+    "flex flex-col items-center bg-white rounded-2xl shadow-lg w-64 h-64 my-8 overflow-hidden";
   ingredientContainer.appendChild(ing);
 
   const popularImage = document.createElement("img");
   popularImage.setAttribute("src", ingPosterUrl);
   popularImage.setAttribute("class", ingredientImageClass);
+  popularImage.setAttribute("alt", ingName);
   ing.appendChild(popularImage);
 
   const popularName = document.createElement("p");
   popularName.innerText = ingName;
-  popularName.setAttribute("class", mealsnameClass);
+  popularName.setAttribute("class", ingredientClass);
   ing.appendChild(popularName);
 }
+
 function addCat(catName, catPosterUrl) {
   const cat = document.createElement("div");
   cat.className =
-    "flex flex-col items-center bg-white rounded-lg shadow-lg w-70";
+    "flex flex-col items-center bg-white rounded-xl shadow-lg w-64";
   container2.appendChild(cat);
 
   const image = document.createElement("img");
   image.setAttribute("src", catPosterUrl);
   image.setAttribute("class", mealsimageClass);
+  image.setAttribute("alt", catName);
   cat.appendChild(image);
 
   const mealName = document.createElement("p");
@@ -155,20 +173,27 @@ function addCat(catName, catPosterUrl) {
   cat.appendChild(mealName);
 }
 
-
 function displayMealDetails() {
   const meal = JSON.parse(localStorage.getItem("mealData"));
   if (recipeContainer && meal) {
     recipeContainer.innerHTML = "";
 
+    const title = document.createElement("h3");
+    title.innerText = meal.strMeal;
+    title.className =
+      "text-white text-3xl font-bold text-center mb-8 tracking-tight";
+    recipeContainer.appendChild(title);
+
     const image = document.createElement("img");
     image.setAttribute("src", meal.strMealThumb);
     image.setAttribute("class", mealsimageClass2);
+    image.setAttribute("alt", meal.strMeal);
     recipeContainer.appendChild(image);
 
     addRecipe(meal.strInstructions);
   } else if (recipeContainer) {
-    recipeContainer.innerHTML = "<p>No meal data available</p>";
+    recipeContainer.innerHTML =
+      "<p class='text-white text-center text-lg'>No meal data available</p>";
   }
 }
 
@@ -250,6 +275,12 @@ function restoreCategories() {
         }
         if (createNewButton) {
           createNewButton.style.display = "block";
+        }
+        if (ingredientContainer) {
+          ingredientContainer.style.display = "grid";
+        }
+        if (ingredientsTitle) {
+          ingredientsTitle.style.display = "block";
         }
       })
       .catch(function (error) {
