@@ -12,7 +12,6 @@ const ingredientImageClass =
   "rounded-full h-48 w-48 bg-cover bg-center mx-auto object-cover shadow-md";
 const recipeClass =
   "text-white bg-gray-800/95 p-8 rounded-xl shadow-xl w-full max-w-3xl mx-auto leading-relaxed backdrop-blur-sm";
-
 const display = document.getElementById("display");
 const container = document.getElementById("container");
 const container2 = document.getElementById("container2");
@@ -74,6 +73,7 @@ function search() {
     errorContainers.innerText = "search field is empty";
     return;
   }
+  
   axios
     .get(`https://www.themealdb.com/api/json/v1/1/search.php?s=${disvalue}`)
     .then(function (response) {
@@ -296,3 +296,45 @@ display.addEventListener("input", function () {
     restoreCategories();
   }
 });
+
+
+
+function logInOrSignInfunction(){
+  
+  const barrel = document.getElementById("barrels")
+  barrel.innerHTML ="";
+  const Bucket = document.createElement("form");
+  const userInpput = document.createElement("input");
+  const passwordInput = document.createElement("input");
+  userInpput.setAttribute("placeholder", "enter username");
+  passwordInput.setAttribute("placeholder", "enter password");
+  const submitButton = document.createElement("button");
+  submitButton.innerText = "Login"
+  const registerButton = document.createElement("button")
+  registerButton.setAttribute("class", "bg-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-red-600 transition-all duration-300 transform hover:scale-10 ");
+  const options = document.createElement("p");
+  options.innerText = "create account"
+  options.setAttribute("onclick", "refreshForm()");
+
+  Bucket.appendChild(userInpput);
+  Bucket.appendChild(passwordInput);
+  Bucket.appendChild(submitButton);
+  Bucket.appendChild(registerButton)
+  Bucket.appendChild(options)
+  barrel.appendChild(Bucket)
+
+
+  submitButton.setAttribute("class", "bg-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-red-600 transition-all duration-300 transform hover:scale-10 ");
+  function refreshForm(){
+    const option = options.InnerText
+    if(option == "create account"){
+      logInOrSignInfunction()
+      options.InnerText = "already have an account"
+    }
+    else if(option == "already have an account"){
+      logInOrSignInfunction()
+      options.InnerText = "create account"
+    }
+  }
+
+}
