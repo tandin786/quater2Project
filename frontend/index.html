@@ -37,8 +37,8 @@
         <div id="errorContainer"></div>
       </div>
 
-      <div class="">
-      <button id="logSinButton" onclick="openLoginForm()" class="bg-red-500 text-white px-6 mx-4 py-2 rounded-full hover:bg-red-600 transition-colors duration-300 transform hover:scale-105 float-right ">Button</button>
+      <div">
+      <button id="logSinButton" onclick="openSignInForm()" class="bg-red-500 text-white px-6 mx-4 py-2 rounded-full hover:bg-red-600 transition-colors duration-300 transform hover:scale-105 float-right ">Sign In</button>
       
         <a
       href="./landing.html"
@@ -161,7 +161,7 @@
     </div>
    
        <div
-      id="logInOrSignIn-Modal"
+      id="SignIn-Modal"
       class="fixed inset-0 bg-gray-900/80 backdrop-blur-md flex items-center justify-center hidden z-50 transition-opacity duration-300"
       aria-modal="true"
       role="dialog"
@@ -171,10 +171,10 @@
       >
         <div class="flex justify-between items-center mb-6">
           <h2 class="text-white text-2xl font-bold tracking-tight">
-            Log In / Sign In
+            Sign In
           </h2>
           <button
-            onclick="closeLoginForm()"
+            onclick="closeSignInForm()"
             class="text-white text-3xl hover:text-red-400 transition-colors duration-200"
             aria-label="Close modal"
           >
@@ -182,6 +182,71 @@
           </button>
         </div>
         <form id="UserRegistration"  onsubmit="RegisterUser(event)" >
+          <div class="mb-6">
+            <label
+              for="Username"
+              class="block text-gray-200 text-lg font-medium mb-2"
+              >Username</label
+            >
+            <input
+              id="SignUsername"
+              name="category"
+              type="text"
+              class="w-full bg-gray-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300"
+              placeholder="Type Username"
+              aria-required="true"
+            />
+          </div>
+          <div class="mb-6">
+            <label
+              for="UserPassword"
+              class="block text-gray-200 text-lg font-medium mb-2"
+              >Password</label
+            >
+            <input
+              type="text"
+              id="SignUserPassword"
+              name="Password"
+              class="w-full bg-gray-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300"
+              placeholder="Type Password"
+              aria-required="true"
+            />
+          </div>
+          <button
+            type="button"
+            id="registrationButtons"
+            onclick="RegisterUser()"
+            class="w-full bg-blue-500 text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition-all duration-300"
+          >
+            Register
+            
+          </button>
+          <p id="very-special-tag">already have an account<p>
+        </form>
+      </div>
+      </div>
+      <div
+      id="logIn-Modal"
+      class="fixed inset-0 bg-gray-900/80 backdrop-blur-md flex items-center justify-center hidden z-50 transition-opacity duration-300"
+      aria-modal="true"
+      role="dialog"
+    >
+      <div
+        class="bg-gray-800 p-8 rounded-2xl w-full max-w-lg mx-4 shadow-2xl transform transition-all duration-300"
+      >
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-white text-2xl font-bold tracking-tight">
+            Log In
+          </h2>
+          <button
+            id="loginButton"
+            class="text-white text-3xl hover:text-red-400 transition-colors duration-200"
+            aria-label="Close modal"
+          >
+            ×
+          </button>
+        </div>
+        <form id="UserLogin"  onsubmit="loginFunction(event)" >
           <div class="mb-6">
             <label
               for="Username"
@@ -213,16 +278,44 @@
             />
           </div>
           <button
-            type="Register"
-            id="registrationButtons"
-            onclick="RegisterUser()"
+            type="button"
+            id="loginButton"
+            onclick="loginFunction(event)"
             class="w-full bg-blue-500 text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition-all duration-300"
           >
-            Register
+            Login
           </button>
-          <p id="very-special-tag">Create Account<p>
+          <p id="very-special-tag">already have an account<p>
         </form>
       </div>
       </div>
+      <div id="riviewDivision">
+        </div>
+<div id="reviewSection" class="w-full max-w-lg mx-auto mt-8 bg-gray-900/80 rounded-2xl hidden shadow-2xl p-6">
+  <h2 class="text-2xl font-bold text-white mb-4 text-center">Reviews</h2>
+  <div id="reviewsList" class="space-y-4 mb-6">
+    <!-- Reviews will be dynamically inserted here -->
+  </div>
+  <form id="reviewForm" class="flex flex-col gap-4">
+    <input
+      id="reviewUsername"
+      type="text"
+      placeholder="Your username"
+      class="bg-gray-700 text-white px-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300"
+    />
+    <textarea
+      id="reviewText"
+      placeholder="Write your review..."
+      class="bg-gray-700 text-white px-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300"
+    ></textarea>
+    <button
+      type="submit"
+      onclick="addReview(event)"
+      class="bg-blue-500 text-white py-2 rounded-xl font-semibold hover:bg-blue-600 transition-all duration-300"
+    >
+      Add Review
+    </button>
+  </form>
+</div>
   </body>
 </html>

@@ -20,7 +20,9 @@ const ingredientContainer = document.getElementById("popular-ingredients");
 const categoriesTitle = document.getElementById("categories-title");
 const createNewButton = document.getElementById("create-new");
 const ingredientsTitle = document.getElementById("ingredients-title");
-const logSignForm = document.getElementById("logInOrSignIn-Modal")
+const SignForm = document.getElementById("SignIn-Modal");
+const logForm = document.getElementById("logIn-Modal")
+const SingingButton = document.getElementById("logSinButton");
 
 function addRecipe(descriptionOfMeal) {
   const recipe = document.createElement("div");
@@ -298,17 +300,50 @@ display.addEventListener("input", function () {
   }
 });
 
+
+
+
+function openLoginForm() {
+  
+  if (logForm) {
+    logForm.classList.remove("hidden");
+  }
+}
+
+
+function closeLoginForm() {
+  if (logForm) {
+    logForm.classList.add("hidden");
+    document.getElementById("UserLogin").reset();
+  }
+}
+
+function openSignInForm() {
+  
+  if (SignForm) {
+    SignForm.classList.remove("hidden");
+  }
+}
+
+
+function closeSignInForm() {
+  if (SignForm) {
+    SignForm.classList.add("hidden");
+    document.getElementById("UserRegistration").reset();
+  }
+}
+
+
+
+
+
+
+
 function RegisterUser(event) {
-  event.preventDefault();
-  const loginButton = document.createElement("button");
-  loginButton.innerText = "Login";
-  loginButton.setAttribute(
-    "class",
-    "w-full bg-blue-500 text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition-all duration-300"
-  );
-  const usersUsername = document.getElementById("Username");
+  // event.preventDefault();
+  const usersUsername = document.getElementById("SignUsername");
   const usernameValue = usersUsername.value;
-  const UserPassword = document.getElementById("UserPassword");
+  const UserPassword = document.getElementById("SignUserPassword");
   const passwordValue = UserPassword.value;
   const loginError = document.createElement("p");
   const registrationButton = document.getElementById("registrationButtons");
@@ -328,28 +363,75 @@ function RegisterUser(event) {
     .post(`http://localhost:5110/register`, UserData)
     .then(function (response) {
       console.log(response.data.message);
-      const UserRegistration = document.getElementById("UserRegistration");
       document.getElementById("UserRegistration").reset();
-      UserRegistration.replaceChild(loginButton, registrationButton);
+      registrationButton.innerHTML = "";
+      alert("User created. Thank You.")
+      closeSignInForm();
+      openLoginForm();
     })
     .catch(function (error) {
-      console.error("Error creating User:", error);
-      alert("Failed to add User. Please try again.");
+      if(error.response){
+        const status = error.response.status
+        if(status === 409){
+          alert("User Already Exist")
+        }else{
+          alert("Make sure you field both the filled")
+        }
+      }else{
+        alert("make sure all field are filled")
+      }
     });
 }
 
 
-function openLoginForm() {
-  
-  if (logSignForm) {
-    logSignForm.classList.remove("hidden");
+
+function loginFunction(event){
+  event.preventDefault();
+  const usersUsername = document.getElementById("Username");
+  const usernameValue = usersUsername.value;
+  const UserPassword = document.getElementById("UserPassword");
+  const passwordValue = UserPassword.value;
+  if (!usernameValue || !passwordValue) {
+    console.error("Both field should be filled");
+    alert("Please fill in both");
+    return;
   }
-}
+
+  const UserData = {
+    username: usernameValue,
+    password: passwordValue,
+  };
+
+  axios
+    .post(`http://localhost:5110/login`, UserData)
+    .then(function (response) {
+      console.log(response.data.message);
+      
+      document.getElementById("UserLogin").reset();
+      alert("Signed in successfully");
+      SingingButton.innerHTML = "";
+      SingingButton.setAttribute("class", "hidden");
+      closeLoginForm();
+      alert("Signed in successfully");
+        document.getElementById("reviewSection").classList.remove("hidden");
 
 
-function closeLoginForm() {
-  if (logSignForm) {
-    logSignForm.classList.add("hidden");
-    document.getElementById("UserRegistration").reset();
-  }
+    })
+    .catch(function (error) {
+      if(error.response){
+        const status = error.response.status
+        if(status === 409){
+          alert("User Already Exist")
+        }else{
+          alert("Login Failed")
+        }
+      }else{
+        alert("make sure all field are filled")
+      }
+    });
 }
+
+if(SingingButton.innerHTML === ""){
+  document.getElementById("reviewSection").classList.remove("hidden");
+}
+
