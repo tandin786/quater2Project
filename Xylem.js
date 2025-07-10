@@ -1,36 +1,70 @@
 const express = require("express");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
-const app = express();
 const session = require("express-session");
+
+const app = express();
+
 app.use(express.json());
 app.use(cors());
-const port = 7108;
+
+const port = 5110;
 
 app.use(session({
-    secret: "I'll type burger again",
+    secret: "Don't tell anyone",
     resave: false,
     saveUninitialized: false,
 }))
-app.get("/", (req, res)=> {
-    res.send("Hellow")
-})
-app.post("/login", (req, res) => {
-  const { username, password } = req.body;
 
-  if (!username || !password) {
-    return res.status(422).send("All fields are required");
-  }
+const users = [];
 
-  const dummyUser = { username: "admin", passwordHash: "$2b$10$..." };
+app.post("/register", async (req, res) => {
+    const { username, password } = req.body;
+    if (!username || !password) {
+        return res.status(422).send("all fields are required");
+    }
+    const existing = users.find(u => u.username === username);
+    if (existing) {
+        return res.status(409).send("username already exists");
+    }
+    const passwordHash = await bcrypt.hash(password, 10);
+    users.push({ username, passwordHash });
+    res.send("user registered");
+});
 
-  req.session.user = { username };
-  res.send(`Welcome, ${username}`);
+app.post("/login", async (req, res) => {
+    const { username, password } = req.body;
+    if (!username || !password) {
+        return res.status(422).send("all fields are required");
+    }
+    const user = users.find(u => u.username === username);
+    if (!user) {
+        return res.status(401).send("invalid credentials");
+    }
+    const match = await bcrypt.compare(password, user.passwordHash);
+    if (!match) {
+        return res.status(401).send("invalid credentials");
+    }
+    req.session.user = { username };
+    res.send(`Welcome, ${username}`);
+});
+
+
+app.get("/users", (req, res) => {
+    res.json(users.map(u => ({ username: u.username })));
+});
+
+app.delete("/users/:username", (req, res) => {
+    const { username } = req.params;
+    const idx = users.findIndex(u => u.username === username);
+    if (idx === -1) {
+        return res.status(404).send("user not found");
+    }
+    users.splice(idx, 1);
+    res.send("user deleted");
 });
 
 
 app.listen(port, () => {
-    console.log(`another server is running on port ${port}`)
+    console.log(`server runs on port ${port}`)
 })
-
-
