@@ -37,15 +37,9 @@
         <div id="errorContainer"></div>
       </div>
 
-      <div>
-      <button id="logSinButton" onclick="logInOrSignInfunction()" class="bg-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-red-600 transition-all duration-300 transform hover:scale-105"></button>
+      <div class="">
+      <button id="logSinButton" onclick="logInOrSignInfunction()" class="bg-red-500 text-white px-6 mx-4 py-2 rounded-full hover:bg-red-600 transition-colors duration-300 transform hover:scale-105 float-right ">Button</button>
       
-      <a
-        href="./landing.html"
-        class="bg-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-red-600 transition-all duration-300 transform hover:scale-105"
-        aria-label="Go to home page"
-         >
-
         <a
       href="./landing.html"
       class="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600 transition-colors duration-300 transform hover:scale-105 float-right"
@@ -55,7 +49,7 @@
         Home
       </a>
       </div>
-      <div class="my-12 bg-blue-600" id="barrels"></div>
+      
     </nav>
     <main class="my-12 px-6 max-w-7xl mx-auto">
       <h2 class="text-5xl font-bold text-center tracking-tight">
@@ -162,7 +156,73 @@
             Submit
           </button>
         </form>
+         
       </div>
     </div>
+   
+       <div
+      id="logInOrSignIn-Modal"
+      class="fixed inset-0 bg-gray-900/80 backdrop-blur-md flex items-center justify-center hidden z-50 transition-opacity duration-300"
+      aria-modal="true"
+      role="dialog"
+    >
+      <div
+        class="bg-gray-800 p-8 rounded-2xl w-full max-w-lg mx-4 shadow-2xl transform transition-all duration-300"
+      >
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-white text-2xl font-bold tracking-tight">
+            Log In / Sign In
+          </h2>
+          <button
+            onclick="closeModal()"
+            class="text-white text-3xl hover:text-red-400 transition-colors duration-200"
+            aria-label="Close modal"
+          >
+            ×
+          </button>
+        </div>
+        <form id="UserRegistration"  onsubmit="RegisterUser(event)" >
+          <div class="mb-6">
+            <label
+              for="Username"
+              class="block text-gray-200 text-lg font-medium mb-2"
+              >Username</label
+            >
+            <input
+              id="Username"
+              name="category"
+              type="text"
+              class="w-full bg-gray-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300"
+              placeholder="Type Username"
+              aria-required="true"
+            />
+          </div>
+          <div class="mb-6">
+            <label
+              for="UserPassword"
+              class="block text-gray-200 text-lg font-medium mb-2"
+              >Password</label
+            >
+            <input
+              type="text"
+              id="UserPassword"
+              name="Password"
+              class="w-full bg-gray-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300"
+              placeholder="Type Password"
+              aria-required="true"
+            />
+          </div>
+          <button
+            type="Register"
+            id="registrationButtons"
+            onclick="RegisterUser()"
+            class="w-full bg-blue-500 text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition-all duration-300"
+          >
+            Register
+          </button>
+          <p id="very-special-tag">Create Account<p>
+        </form>
+      </div>
+      </div>
   </body>
 </html>
