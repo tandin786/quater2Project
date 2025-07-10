@@ -297,23 +297,20 @@ display.addEventListener("input", function () {
   }
 });
 
-
-
-
-
-
-
- function RegisterUser(event) {
+function RegisterUser(event) {
   event.preventDefault();
-  const loginButton = document.createElement("button")
-  loginButton.innerText = "Login"
-  loginButton.setAttribute("class", "w-full bg-blue-500 text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition-all duration-300");
+  const loginButton = document.createElement("button");
+  loginButton.innerText = "Login";
+  loginButton.setAttribute(
+    "class",
+    "w-full bg-blue-500 text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition-all duration-300"
+  );
   const usersUsername = document.getElementById("Username");
-  const usernameValue = usersUsername.value
-  const UserPassword = document.getElementById("UserPassword")
-  const passwordValue = UserPassword.value
-  const loginError = document.createElement("p")
-  const registrationButton = document.getElementById("registrationButtons") 
+  const usernameValue = usersUsername.value;
+  const UserPassword = document.getElementById("UserPassword");
+  const passwordValue = UserPassword.value;
+  const loginError = document.createElement("p");
+  const registrationButton = document.getElementById("registrationButtons");
   loginError.setAttribute("class", "text-red-400");
   if (!usernameValue || !passwordValue) {
     console.error("Both field should be filled");
@@ -329,16 +326,13 @@ display.addEventListener("input", function () {
   axios
     .post(`http://localhost:5110/register`, UserData)
     .then(function (response) {
-  
       console.log(response.data.message);
-      const UserRegistration = document.getElementById("UserRegistration")
+      const UserRegistration = document.getElementById("UserRegistration");
       document.getElementById("UserRegistration").reset();
-      UserRegistration.replaceChild(loginButton, registrationButton)
-      
-
+      UserRegistration.replaceChild(loginButton, registrationButton);
     })
     .catch(function (error) {
       console.error("Error creating User:", error);
       alert("Failed to add User. Please try again.");
     });
- }
+}
