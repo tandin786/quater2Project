@@ -34,6 +34,49 @@ function addRecipe(descriptionOfMeal) {
     recipeContainer.appendChild(recipe);
   }
 }
+function displayMealDetails() {
+  const meal = JSON.parse(localStorage.getItem("mealData"));
+  if (recipeContainer && meal) {
+    recipeContainer.innerHTML = "";
+
+    const title = document.createElement("h3");
+    title.innerText = meal.strMeal;
+    title.className =
+      "text-white text-3xl font-bold text-center mb-8 tracking-tight";
+    recipeContainer.appendChild(title);
+
+    const image = document.createElement("img");
+    image.setAttribute("src", meal.strMealThumb);
+    image.setAttribute("class", mealsimageClass2);
+    image.setAttribute("alt", meal.strMeal);
+    recipeContainer.appendChild(image);
+
+    addRecipe(meal.strInstructions);
+  } else if (recipeContainer) {
+    recipeContainer.innerHTML =
+      "<p class='text-white text-center text-lg'>No meal data available</p>";
+  }
+}
+function getById(event) {
+  const mealId = event.currentTarget.dataset.mealId;
+  console.log(mealId, "meal visitor id");
+
+  axios
+    .get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`)
+    .then(function (response) {
+      console.log(response);
+      if (response.data.meals && response.data.meals[0]) {
+        localStorage.setItem(
+          "mealData",
+          JSON.stringify(response.data.meals[0])
+        );
+        window.location.href = `./recipe.html?mealId=${mealId}`;
+      }
+    })
+    .catch(function (error) {
+      console.error("Error fetching meal data:", error);
+    });
+}
 
 function addFoods(foodsname, foodimageURL, food_id) {
   const result = document.createElement("button");
@@ -109,27 +152,6 @@ function search() {
     });
 }
 
-function getById(event) {
-  const mealId = event.currentTarget.dataset.mealId;
-  console.log(mealId, "meal visitor id");
-
-  axios
-    .get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`)
-    .then(function (response) {
-      console.log(response);
-      if (response.data.meals && response.data.meals[0]) {
-        localStorage.setItem(
-          "mealData",
-          JSON.stringify(response.data.meals[0])
-        );
-        window.location.href = `./recipe.html?mealId=${mealId}`;
-      }
-    })
-    .catch(function (error) {
-      console.error("Error fetching meal data:", error);
-    });
-}
-
 axios.get(`http://localhost:5008/item`).then(function (response) {
   console.log(response, "ing");
   response.data.forEach((ing) => {
@@ -148,6 +170,8 @@ function addIng(ingName, ingPosterUrl) {
   popularImage.setAttribute("class", ingredientImageClass);
   popularImage.setAttribute("alt", ingName);
   ing.appendChild(popularImage);
+  const ingMealInput = document.createElement("input");
+  ingMealInput.setAttribute;
 
   const popularName = document.createElement("p");
   popularName.innerText = ingName;
@@ -171,30 +195,6 @@ function addCat(catName, catPosterUrl) {
   mealName.innerText = catName;
   mealName.setAttribute("class", mealsnameClass);
   cat.appendChild(mealName);
-}
-
-function displayMealDetails() {
-  const meal = JSON.parse(localStorage.getItem("mealData"));
-  if (recipeContainer && meal) {
-    recipeContainer.innerHTML = "";
-
-    const title = document.createElement("h3");
-    title.innerText = meal.strMeal;
-    title.className =
-      "text-white text-3xl font-bold text-center mb-8 tracking-tight";
-    recipeContainer.appendChild(title);
-
-    const image = document.createElement("img");
-    image.setAttribute("src", meal.strMealThumb);
-    image.setAttribute("class", mealsimageClass2);
-    image.setAttribute("alt", meal.strMeal);
-    recipeContainer.appendChild(image);
-
-    addRecipe(meal.strInstructions);
-  } else if (recipeContainer) {
-    recipeContainer.innerHTML =
-      "<p class='text-white text-center text-lg'>No meal data available</p>";
-  }
 }
 
 if (document.getElementById("recipe-container")) {

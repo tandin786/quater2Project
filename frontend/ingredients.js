@@ -32,11 +32,11 @@ ingredients = [
   },
   {
     Items: "Jalapeno",
-    Image: "",
+    Image: "https://www.themealdb.com/images/ingredients/jalapeno-medium.png",
   },
   {
     Items: "Mushrooms",
-    Image: "https://www.themealdb.com/images/ingredients/jalapeno-medium.png",
+    Image: "https://www.themealdb.com/images/ingredients/mushroom-medium.png",
   },
   {
     Items: "Rice Stick Noodles",
