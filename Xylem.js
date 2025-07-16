@@ -40,8 +40,8 @@ app.post("/register", async (req, res) => {
   if (!username || !password) {
     return res.status(422).send("all fields are required");
   }
-  const existing = users.find((u) => u.username === username);
-  if (existing) {
+  const match = await kn("users_info").where("username", username).first();
+  if (match) {
     return res.status(409).send("username already exists");
   }
   const passwordhash = await bcrypt.hash(password, 10);
@@ -49,22 +49,39 @@ app.post("/register", async (req, res) => {
   res.json({ message: "user Registered" });
 });
 
-app.post("/login", async (req, res) => {
+app.post("/user_info/login", async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
     return res.status(422).send("all fields are required");
   }
-  const user = users.find((u) => u.username === username);
-  if (!user) {
-    return res.status(401).send("invalid credentials");
+  const match = await kn("users_info").where("username", username).first();
+  if (match) {
+    const user = await kn("users_info").where({ username }).first();
+    const login = await bcrypt.compare(password, user.passwordhash);
+    if (!login) {
+      return res.send("get lost!");
+    }
+    req.session.user = username;
+    res.send("Welcome");
   }
-  const match = await bcrypt.compare(password, user.passwordHash);
-  if (!match) {
-    return res.status(401).send("invalid credentials");
-  }
-  req.session.user = { username };
-  res.send(`Welcome, ${username}`);
 });
+
+// app.post("/login", async (req, res) => {
+//   const { username, password } = req.body;
+//   if (!username || !password) {
+//     return res.status(422).send("all fields are required");
+//   }
+//   const user = users.find((u) => u.username === username);
+//   if (!user) {
+//     return res.status(401).send("invalid credentials");
+//   }
+//   const match = await bcrypt.compare(password, user.passwordHash);
+//   if (!match) {
+//     return res.status(401).send("invalid credentials");
+//   }
+//   req.session.user = { username };
+//   res.send(`Welcome, ${username}`);
+// });
 
 app.get("/users_info/:id", async (req, res) => {
   const { id } = req.params;
