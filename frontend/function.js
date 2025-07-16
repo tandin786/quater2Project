@@ -21,7 +21,7 @@ const categoriesTitle = document.getElementById("categories-title");
 const createNewButton = document.getElementById("create-new");
 const ingredientsTitle = document.getElementById("ingredients-title");
 const SignForm = document.getElementById("SignIn-Modal");
-const logForm = document.getElementById("logIn-Modal")
+const logForm = document.getElementById("logIn-Modal");
 const SingingButton = document.getElementById("logSinButton");
 
 function addRecipe(descriptionOfMeal) {
@@ -300,16 +300,11 @@ display.addEventListener("input", function () {
   }
 });
 
-
-
-
 function openLoginForm() {
-  
   if (logForm) {
     logForm.classList.remove("hidden");
   }
 }
-
 
 function closeLoginForm() {
   if (logForm) {
@@ -319,12 +314,10 @@ function closeLoginForm() {
 }
 
 function openSignInForm() {
-  
   if (SignForm) {
     SignForm.classList.remove("hidden");
   }
 }
-
 
 function closeSignInForm() {
   if (SignForm) {
@@ -332,12 +325,6 @@ function closeSignInForm() {
     document.getElementById("UserRegistration").reset();
   }
 }
-
-
-
-
-
-
 
 function RegisterUser(event) {
   // event.preventDefault();
@@ -365,27 +352,25 @@ function RegisterUser(event) {
       console.log(response.data.message);
       document.getElementById("UserRegistration").reset();
       registrationButton.innerHTML = "";
-      alert("User created. Thank You.")
+      alert("User created. Thank You.");
       closeSignInForm();
       openLoginForm();
     })
     .catch(function (error) {
-      if(error.response){
-        const status = error.response.status
-        if(status === 409){
-          alert("User Already Exist")
-        }else{
-          alert("Make sure you field both the filled")
+      if (error.response) {
+        const status = error.response.status;
+        if (status === 409) {
+          alert("User Already Exist");
+        } else {
+          alert("Make sure you field both the filled");
         }
-      }else{
-        alert("make sure all field are filled")
+      } else {
+        alert("make sure all field are filled");
       }
     });
 }
 
-
-
-function loginFunction(event){
+function loginFunction(event) {
   event.preventDefault();
   const usersUsername = document.getElementById("Username");
   const usernameValue = usersUsername.value;
@@ -403,35 +388,32 @@ function loginFunction(event){
   };
 
   axios
-    .post(`http://localhost:5110/login`, UserData)
+    .post(`http://localhost:5110/user_info/login`, UserData)
     .then(function (response) {
       console.log(response.data.message);
-      
+
       document.getElementById("UserLogin").reset();
       alert("Signed in successfully");
       SingingButton.innerHTML = "";
       SingingButton.setAttribute("class", "hidden");
       closeLoginForm();
       alert("Signed in successfully");
-        document.getElementById("reviewSection").classList.remove("hidden");
-
-
+      document.getElementById("reviewSection").classList.remove("hidden");
     })
     .catch(function (error) {
-      if(error.response){
-        const status = error.response.status
-        if(status === 409){
-          alert("User Already Exist")
-        }else{
-          alert("Login Failed")
+      if (error.response) {
+        const status = error.response.status;
+        if (status === 409) {
+          alert("User Already Exist");
+        } else {
+          alert("Login Failed");
         }
-      }else{
-        alert("make sure all field are filled")
+      } else {
+        alert("make sure all field are filled");
       }
     });
 }
 
-if(SingingButton.innerHTML === ""){
+if (SingingButton.innerHTML === "") {
   document.getElementById("reviewSection").classList.remove("hidden");
 }
-
