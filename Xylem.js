@@ -44,8 +44,8 @@ app.post("/register", async (req, res) => {
   if (existing) {
     return res.status(409).send("username already exists");
   }
-  const passwordHash = await bcrypt.hash(password, 10);
-  users.push({ username, passwordHash });
+  const passwordhash = await bcrypt.hash(password, 10);
+  await kn("users_info").insert({ username, passwordhash });
   res.json({ message: "user Registered" });
 });
 
@@ -72,9 +72,11 @@ app.get("/users_info/:id", async (req, res) => {
   res.send(result);
 });
 
-app.delete("/users/:username", (req, res) => {
-  const { username } = req.params;
-  const idx = users.findIndex((u) => u.username === username);
+app.delete("/users_info/:id", async (req, res) => {
+  const { id } = req.params;
+  await kn("users_info").where("id", id).del();
+  res.send("deleted");
+
   if (idx === -1) {
     return res.status(404).send("user not found");
   }
